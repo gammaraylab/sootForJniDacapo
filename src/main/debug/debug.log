@@ -1,0 +1,13 @@
+71
+******************
+Classes loaded: 174
+Special calls: 42
+JNI calls: 0
+Virtual calls: 116
+Static calls: 169
+Total objects allocated: 158
+Escaped objects: 22
+Escaped via JNI calls: 0
+Escaped JNI objects out of all escaped objects: 0%
+Methods analyzed: 238
+******************
