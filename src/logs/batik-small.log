@@ -1,0 +1,59 @@
+Soot started on Thu Sep 12 14:46:53 IST 2024
+******************
+Classes loaded:         530
+Special calls:          330
+JNI calls:              46
+<java.lang.Object: int hashCode()>152
+<java.io.FileOutputStream: void writeBytes(byte[],int,int,boolean)>313
+<java.lang.Object: java.lang.Object clone()>1405
+<java.lang.ClassLoader: java.lang.Class findLoadedClass0(java.lang.String)>1031
+<java.lang.Object: java.lang.Object clone()>361
+<java.lang.Thread: void interrupt0()>926
+<java.lang.Object: int hashCode()>311
+<java.lang.Object: int hashCode()>132
+<java.lang.Object: java.lang.Object clone()>147
+<java.lang.Class: java.lang.String getName0()>642
+<java.util.zip.Deflater: int deflateBytes(long,byte[],int,int,int)>444
+<java.io.FileInputStream: int read0()>207
+<java.io.FileOutputStream: void write(int,boolean)>290
+<java.lang.Object: java.lang.Object clone()>101
+<java.lang.Object: int hashCode()>657
+<java.lang.Object: java.lang.Object clone()>443
+<java.lang.Object: java.lang.Object clone()>762
+<java.lang.Class: java.lang.Class[] getInterfaces0()>848
+<java.lang.Class: java.lang.Object[] getEnclosingMethod0()>1072
+<java.lang.Object: java.lang.Object clone()>559
+<java.lang.Object: int hashCode()>808
+<java.lang.Object: java.lang.Object clone()>736
+<java.lang.Object: int hashCode()>192
+<java.io.FileInputStream: int readBytes(byte[],int,int)>255
+<java.lang.Object: int hashCode()>186
+<java.lang.Object: java.lang.Object clone()>273
+<java.io.FileOutputStream: void writeBytes(byte[],int,int,boolean)>326
+<java.lang.Object: java.lang.Object clone()>274
+<java.util.zip.Inflater: int inflateBytes(long,byte[],int,int)>259
+<java.lang.Object: int hashCode()>341
+<java.lang.Class: java.lang.Class[] getInterfaces0()>852
+<java.lang.Object: int hashCode()>128
+<java.lang.Class: java.lang.String getGenericSignature0()>2544
+<java.lang.Object: int hashCode()>645
+<java.lang.Object: java.lang.Object clone()>258
+<java.lang.Object: java.lang.Object clone()>710
+<java.lang.Thread: void interrupt0()>931
+<java.lang.Object: int hashCode()>625
+<java.lang.Object: int hashCode()>900
+<java.lang.Object: int hashCode()>1094
+<java.lang.Object: java.lang.Object clone()>701
+<java.lang.Object: java.lang.Object clone()>1184
+<java.lang.Class: java.lang.Class getDeclaringClass0()>1235
+<java.lang.Object: java.lang.Object clone()>1962
+<java.lang.Object: java.lang.Object clone()>1008
+<java.lang.ClassLoader: void resolveClass0(java.lang.Class)>957
+Virtual calls:          2562
+Static calls:           631
+Total objects allocated:625
+Escaped objects:        260
+Escaped via JNI calls:  17
+Escaped JNI objects out of all escaped objects: 6%
+Methods analyzed:       1845
+******************

@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="main" type="Application" factoryName="Application">
+    <output_file path="$PROJECT_DIR$/src/logs/output.log" is_save="true" />
+    <option name="MAIN_CLASS_NAME" value="PA3" />
+    <module name="sootForJniDacapo" />
+    <option name="VM_PARAMETERS" value="-Xmx13g" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

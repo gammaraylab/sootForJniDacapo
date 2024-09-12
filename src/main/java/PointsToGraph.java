@@ -1,16 +1,10 @@
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class PointsToGraph {
 
-  private HashMap<String, HashMap<String, Set<String>>> heap; // Heap mapping
+  private final HashMap<String, HashMap<String, Set<String>>> heap; // Heap mapping
   HashMap<String, Set<String>> stack; // Stack mapping
 
   final String GLOBAL_SYM = "\"@global\"";
@@ -21,12 +15,9 @@ public class PointsToGraph {
   Set<String> objectsToMark = new HashSet<>(); // Nodes to mark in the output
 
   public void eliminateHeapObj(String toRem) {
-    
-    for (String stackVar : stack.keySet()) {  //remove from stack
+    for (String stackVar : stack.keySet())  //remove from stack
       stack.get(stackVar).remove(toRem);
-    }
-    //remove from heap
-    heap.remove(toRem);
+    heap.remove(toRem);//remove from heap
 
     for (String heapObj : heap.keySet()) {
       for (String f : heap.get(heapObj).keySet())
@@ -50,8 +41,7 @@ public class PointsToGraph {
   }
 
   public Set<String> computeClosure() {
-    Set<String> objectsToMarkCopy = new HashSet<>();
-    objectsToMarkCopy.addAll(objectsToMark);
+    Set<String> objectsToMarkCopy = new HashSet<>(objectsToMark);
     objectsToMark.clear();
     objectsToMarkCopy.forEach((String o) -> markRecursively(o));
     return objectsToMarkCopy;
@@ -104,33 +94,29 @@ public class PointsToGraph {
       }
     }
 
-    // // Compare marked
-    // if (!objectsToMark.equals(other.objectsToMark))
-    // return false;
-
     return true;
   }
 
   public void add(PointsToGraph other) {
     try{
-        for (String heapObj : other.heap.keySet()) {
-          if (!heap.containsKey(heapObj))
-            heap.put(heapObj, new HashMap<>());
-          for (String field : other.heap.get(heapObj).keySet()) {
-            if (!heap.get(heapObj).containsKey(field))
-              heap.get(heapObj).put(field, new HashSet<>());
-            heap.get(heapObj).get(field).addAll(other.heap.get(heapObj).get(field));
-          }
+      for (String heapObj : other.heap.keySet()) {
+        if (!heap.containsKey(heapObj))
+          heap.put(heapObj, new HashMap<>());
+        for (String field : other.heap.get(heapObj).keySet()) {
+          if (!heap.get(heapObj).containsKey(field))
+            heap.get(heapObj).put(field, new HashSet<>());
+          heap.get(heapObj).get(field).addAll(other.heap.get(heapObj).get(field));
         }
-        for (String stackVar : other.stack.keySet()) {
-          if (!stack.containsKey(stackVar))
-            stack.put(stackVar, new HashSet<>());
-          if (other.stack.get(stackVar) != null) //if the re
-            stack.get(stackVar).addAll(other.stack.get(stackVar));
-        }
+      }
+      for (String stackVar : other.stack.keySet()) {
+        if (!stack.containsKey(stackVar))
+          stack.put(stackVar, new HashSet<>());
+        if (other.stack.get(stackVar) != null) //if the re
+          stack.get(stackVar).addAll(other.stack.get(stackVar));
+      }
 
-        // objectsToMark.addAll(other.objectsToMark);
-      }catch (NullPointerException ne){
+      // objectsToMark.addAll(other.objectsToMark);
+    }catch (NullPointerException ne){
 //      ne.printStackTrace();
     }
   }
@@ -146,17 +132,8 @@ public class PointsToGraph {
       ensureStackVar(globalVar);
       ensureHeapObj(GLOBAL_SYM);
       stackStrongUpdate(globalVar, GLOBAL_SYM);
-      // // Mark the global variable as escaping
-      // objectsToMark.add(globalVar);
-      // // Mark the global object as escaping
-      // objectsToMark.add(GLOBAL_SYM);
     }
   }
-
-//  public void clearStackObj(String stackVar) {
-//    ensureStackVar(stackVar);
-//    stack.get(stackVar).clear();
-//  }
 
   public void ensureStackVar(String localVar) {
     if (!stack.containsKey(localVar))
@@ -184,34 +161,6 @@ public class PointsToGraph {
     stack.get(stackVar).add(heapObj);
   }
 
-  // a +-> OBJ
-//  public void stackWeakUpdate(String stackVar, String heapObj) {
-//    ensureStackVar(stackVar);
-//    ensureHeapObj(heapObj);
-//    stack.get(stackVar).add(heapObj);
-//  }
-
-//  public void anyFieldExcapes(String heapObj) {
-//    ensureHeapObj(heapObj);
-//    ensureHeapObj(GLOBAL_SYM);
-//    // objectsToMark.add(GLOBAL_SYM);
-//    ensureField(heapObj, STAR_FIELD);
-//    heap.get(heapObj).get(STAR_FIELD).add(GLOBAL_SYM);
-//  }
-
-//  public void anyFieldExcapesForStackVar(String stackVar) {
-//    ensureStackVar(stackVar);
-//    for (String heapObj : stack.get(stackVar)) {
-//      anyFieldExcapes(heapObj);
-//    }
-//  }
-
-//  public void makeGlobalLinks(String stackVar) {
-//    ensureStackVar(stackVar);
-//    ensureHeapObj(GLOBAL_SYM);
-//    ensureField(GLOBAL_SYM, STAR_FIELD);
-//    heap.get(GLOBAL_SYM).get(STAR_FIELD).addAll(stack.get(stackVar));
-//  }
 
   // ********************************************************
 
@@ -239,16 +188,6 @@ public class PointsToGraph {
     stack.get(stackVar1).clear();
     stack.get(stackVar1).addAll(stack.get(stackVar2));
   }
-
-  // a = b; Copy statement (weak)
-//  public void handleCopyStatementWeak(String stackVar1, String stackVar2) {
-//    ensureStackVar(stackVar1);
-//    ensureStackVar(stackVar2);
-//
-//    for (String heapObj : stack.get(stackVar2)) {
-//      stack.get(stackVar1).add(heapObj);
-//    }
-//  }
 
   // global = a
   public void handleAssignmentToGlobal(String globalVar, String localVar) {

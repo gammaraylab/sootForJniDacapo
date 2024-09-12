@@ -18,7 +18,6 @@ public class PTGWL {
     static HashMap<SootMethod, CallSiteElement> elementMap = new HashMap<>();
     static HashSet<SootMethod> allMethods= new HashSet<>();
 
-    static HashSet<SootMethod> allEscapedObjects= new HashSet<>();
     static HashSet<String> jniEscapedObjects= new HashSet<>();
     static HashSet<String> allNewObjects= new HashSet<>();
     static HashSet<String> allLoadedClasses= new HashSet<>();
@@ -44,7 +43,9 @@ public class PTGWL {
     public static boolean isCallsiteAlreadyAdded(SootMethod m, InvokeExpr u, int sourceLine) {
         return elementMap.containsKey(m) && elementMap.get(m).callsiteMap.containsKey(u) && elementMap.get(m).callsiteMap.get(u).sourceLine == sourceLine;  // callsite already analyzed or not
     }
-
+    public static void print(Object o){
+        System.out.println(o);
+    }
     public static void printResults(){
         int totalObjectEscaped=0;
         for(SootMethod method:map.keySet()){   //for each method
@@ -57,21 +58,23 @@ public class PTGWL {
             allLoadedClasses.addAll(map.get(method).classesLoaded);
             allStaticCalls.addAll(map.get(method).staticMethodsCalls);
             allVirtualCalls.addAll(map.get(method).virtualMethodsCalls);
-            allSpecialCalls.addAll(map.get(method).specialMethodsCalls);
+            allSpecialCalls.addAll(map.get(method).privateMethodsCalls);
             allJniCalls.addAll(map.get(method).jniMethodsCalls);
         }
+
         System.out.println("******************");
-        System.out.println("Classes loaded: "+allLoadedClasses.size());
-        System.out.println("Special calls: "+allSpecialCalls.size());
-        System.out.println("JNI calls: "+allJniCalls.size());
-        System.out.println("Virtual calls: "+allVirtualCalls.size());
-        System.out.println("Static calls: "+allStaticCalls.size());
-        System.out.println("Total objects allocated: "+allNewObjects.size());
-        System.out.println("Escaped objects: "+(totalObjectEscaped+jniEscapedObjects.size()));
-        System.out.println("Escaped via JNI calls: "+jniEscapedObjects.size());
+        System.out.println("Classes loaded:         "+allLoadedClasses.size());
+        System.out.println("Special calls:          "+allSpecialCalls.size());
+        System.out.println("JNI calls:              "+allJniCalls.size());
+        allJniCalls.forEach(System.out::println);
+        System.out.println("Virtual calls:          "+allVirtualCalls.size());
+        System.out.println("Static calls:           "+allStaticCalls.size());
+        System.out.println("Total objects allocated:"+allNewObjects.size());
+        System.out.println("Escaped objects:        "+(totalObjectEscaped+jniEscapedObjects.size()));
+        System.out.println("Escaped via JNI calls:  "+jniEscapedObjects.size());
         if((totalObjectEscaped+jniEscapedObjects.size())!=0)
             System.out.println("Escaped JNI objects out of all escaped objects: "+(jniEscapedObjects.size()*100)/(totalObjectEscaped+jniEscapedObjects.size())+"%");
-        System.out.println("Methods analyzed: "+map.keySet().size());
+        System.out.println("Methods analyzed:       "+map.keySet().size());
         System.out.println("******************");
     }
 
