@@ -34,6 +34,7 @@ public class PointsToAnalysis {
 
   HashMap<String, Integer> elimination = new HashMap<>();
 
+  HashMap<String,Integer> methodCalls= new HashMap<>();
   HashSet<String> virtualMethodsCalls = new HashSet<>();
   HashSet<String> staticMethodsCalls = new HashSet<>();
   HashSet<String> privateMethodsCalls = new HashSet<>();
@@ -108,11 +109,12 @@ public class PointsToAnalysis {
     this.lva = new SimpleLiveLocals(new BriefUnitGraph(body));
   }
 
+  //maps the formal parameter to actual parameter
   public static PointsToGraph getProcessedPTG(PatchingChain<Unit> units, PointsToGraph initial,
       List<String> callerParams, String receiverObj, Set<String> alwaysLiveObjs) {
-    PointsToGraph result = initial.clone();
+    PointsToGraph result = initial.clone(); //get the ptg of caller
     HashMap<String, Set<String>> oldStackMapping = result.stack;
-    result.stack = new HashMap<>();
+    result.stack = new HashMap<>(); //remove all the local var from the old graph
     alwaysLiveObjs.addAll(initial.computeClosure());
     // Process formals
     for (Unit u : units) {
@@ -128,8 +130,6 @@ public class PointsToAnalysis {
 
           String wrappedStackVal = wrapString(stackVal.getName());
           if (callerParams.size() > paramref.getIndex()) {
-//            System.err.println("Invalid index provided : " + paramref.getIndex() + " " + callerParams);
-//            System.exit(1);
             String stackNameInInitGraph = callerParams.get(paramref.getIndex());
             try {
               if (stackNameInInitGraph != null && oldStackMapping.get(stackNameInInitGraph) != null) {
@@ -210,8 +210,16 @@ public class PointsToAnalysis {
   }
 
   private PointsToGraph handleInvokeExpr(InvokeExpr invokeExpr, PointsToGraph ptg, Unit u) {
-    classesLoaded.add(invokeExpr.getMethod().getDeclaringClass().getName());
     PointsToGraph result = new PointsToGraph();
+    String className=invokeExpr.getMethod().getDeclaringClass().getName();
+    if(PTGWL.isBlackListed(className)) {
+      return result;
+    }
+    if(className.equals("java.lang.Object"))
+      print(invokeExpr);
+
+    classesLoaded.add(className);
+
     if (invokeExpr instanceof JDynamicInvokeExpr) {
       /* NONE */
       System.out.println("**********JDynamicInvokeExpr");
@@ -257,7 +265,6 @@ public class PointsToAnalysis {
                   targetMethod.getDeclaringClass().getName() + "_" + targetMethod.getName(), init,
                   alwaysLiveObjs);
           try {
-            PTGWL.printResults();
             pta.doAnalysis();
           } catch (Exception e) {
             e.printStackTrace();
@@ -302,6 +309,11 @@ public class PointsToAnalysis {
         });
 
         jniMethodsCalls.add(outputMethod.toString()+u.getJavaSourceStartLineNumber());
+        //counts the method calls
+        if(methodCalls.containsKey(outputMethod.toString()+u.getJavaSourceStartLineNumber()))
+          methodCalls.put(outputMethod.toString()+u.getJavaSourceStartLineNumber(),methodCalls.get(outputMethod.toString()+u.getJavaSourceStartLineNumber())+1);
+        else
+          methodCalls.put(outputMethod.toString()+u.getJavaSourceStartLineNumber(),1);
         escapedObjFromJNI.put(outputMethod.toString(),tmp);
 
         PTGWL.addCallsiteToUnitMap(outputMethod, invokeExpr, clonePTG, callerParams, receiverObj,
@@ -309,10 +321,14 @@ public class PointsToAnalysis {
 
         PTGWL.map.put(outputMethod,new PointsToAnalysis());
         PTGWL.allMethods.add(outputMethod);
-
       }
       else if(outputMethod.isPrivate() && outputMethod.hasActiveBody()) {
         privateMethodsCalls.add(outputMethod.toString()+u.getJavaSourceStartLineNumber());  // add method call
+        //counts the method calls
+        if(methodCalls.containsKey(outputMethod.toString()+u.getJavaSourceStartLineNumber()))
+          methodCalls.put(outputMethod.toString()+u.getJavaSourceStartLineNumber(),methodCalls.get(outputMethod.toString()+u.getJavaSourceStartLineNumber())+1);
+        else
+          methodCalls.put(outputMethod.toString()+u.getJavaSourceStartLineNumber(),1);
         Iterator<Edge> edges = Scene.v().getCallGraph().edgesOutOf(u);
         while (edges.hasNext()) {
           Edge edge = edges.next();
@@ -352,7 +368,6 @@ public class PointsToAnalysis {
                     targetMethod.getDeclaringClass().getName() + "_" + targetMethod.getName(), init,
                     alwaysLiveObjs);
             try {
-              PTGWL.printResults();
               pta.doAnalysis();
             } catch (Exception e) {
               e.printStackTrace();
@@ -366,9 +381,7 @@ public class PointsToAnalysis {
     }
     //virtual invoke
     else if (invokeExpr instanceof JVirtualInvokeExpr) {
-      int p=0;
       Iterator<Edge> edges = Scene.v().getCallGraph().edgesOutOf(u);
-
       while (edges.hasNext()) {
         Edge edge = edges.next();
         SootMethod outputMethod = edge.tgt();
@@ -387,6 +400,11 @@ public class PointsToAnalysis {
           String receiverObj = wrapString(((JimpleLocal) virtualInvokeExpr.getBase()).getName());
 
           virtualMethodsCalls.add(outputMethod.toString()+u.getJavaSourceStartLineNumber());  // add method call
+          //counts the method calls
+          if(methodCalls.containsKey(outputMethod.toString()+u.getJavaSourceStartLineNumber()))
+            methodCalls.put(outputMethod.toString()+u.getJavaSourceStartLineNumber(),methodCalls.get(outputMethod.toString()+u.getJavaSourceStartLineNumber())+1);
+          else
+            methodCalls.put(outputMethod.toString()+u.getJavaSourceStartLineNumber(),1);
 
           PointsToGraph clonePTG = ptg.clone();
 
@@ -409,7 +427,6 @@ public class PointsToAnalysis {
                   alwaysLiveObjs);
 
           try {
-            PTGWL.printResults();
             pta.doAnalysis();
           } catch (Exception e) {
             e.printStackTrace();
@@ -419,7 +436,6 @@ public class PointsToAnalysis {
           result.add(pta.getPTGSummary());
         }
       }
-
     }
     // Static Invoke
     else if (invokeExpr instanceof JStaticInvokeExpr) {
@@ -448,6 +464,12 @@ public class PointsToAnalysis {
           clonePTG.objectsToMark.remove(stackVar);
         }
         staticMethodsCalls.add(outputMethod.toString()+u.getJavaSourceStartLineNumber());  // add method call
+        //counts the method calls
+        if(methodCalls.containsKey(outputMethod.toString()+u.getJavaSourceStartLineNumber()))
+          methodCalls.put(outputMethod.toString()+u.getJavaSourceStartLineNumber(),methodCalls.get(outputMethod.toString()+u.getJavaSourceStartLineNumber())+1);
+        else
+          methodCalls.put(outputMethod.toString()+u.getJavaSourceStartLineNumber(),1);
+
         Set<String> alwaysLiveObjs = new HashSet<>();
         PTGWL.addCallsiteToUnitMap(outputMethod, invokeExpr, clonePTG, callerParams, null,
                 u.getJavaSourceStartLineNumber());
@@ -458,7 +480,6 @@ public class PointsToAnalysis {
                 outputMethod.getDeclaringClass().getName() + "_" + outputMethod.getName(), init,
                 alwaysLiveObjs);
         try {
-          PTGWL.printResults();
           pta.doAnalysis();
         } catch (Exception e) {
           e.printStackTrace();
@@ -473,7 +494,6 @@ public class PointsToAnalysis {
       System.err.println("Unhandled case reached in 'InvokeStatement'");
       System.exit(1);
     }
-
     return result;
   }
 
@@ -544,7 +564,7 @@ public class PointsToAnalysis {
   // Statement: JBreakpointStmt
   // Action: NONE
   private void handleBreakpointStmt(JBreakpointStmt jBreakpointStmt, PointsToGraph ptg) {
-      System.out.println("***********jBreakpointStmt");
+    print("handleBreakpointStmt:"+jBreakpointStmt);
   }
 
   // 12.
@@ -778,8 +798,6 @@ public class PointsToAnalysis {
 
       System.err.println("Left: " + stmnt.leftBox.getValue().getClass() + ", Right: "
           + stmnt.rightBox.getValue().getClass());
-
-      // System.exit(1);
     }
   } //4 handleInvokeStmnt
 
@@ -799,6 +817,7 @@ public class PointsToAnalysis {
   // Statement: JRetStmt
   // Action: NONE
   private void handleRetStmt(JRetStmt jRetStmt, PointsToGraph ptg) {
+    print("handleRetStmt:"+jRetStmt);
   }
 
   // ***********************************************************************************************
@@ -888,7 +907,7 @@ public class PointsToAnalysis {
   }
 
   public void doAnalysis() throws Exception {
-//    PTGWL.printResults();
+    PTGWL.printResults();
     List<Unit> worklist = new ArrayList<>();
     outSets = new HashMap<>();
 
@@ -896,7 +915,7 @@ public class PointsToAnalysis {
     for (Unit u : units)
       outSets.put(u, new PointsToGraph());
 
-    // First interation over the CFG, worklist initialization
+    // First iteration over the CFG, worklist initialization
     for (Unit currUnit : units) {
       PointsToGraph currentFlowSet = new PointsToGraph();
       PointsToGraph old = outSets.get(currUnit);
