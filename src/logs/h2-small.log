@@ -1,50 +1,211 @@
-Soot started on Thu Sep 12 14:10:44 IST 2024
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Soot started on Mon Oct 07 06:12:09 UTC 2024
 ******************
-Classes loaded:         497
-Special calls:          332
-JNI calls:              37
-<java.lang.Object: int hashCode()>152
-<java.net.SocketOutputStream: void socketWrite0(java.io.FileDescriptor,byte[],int,int)>111
-<java.lang.ClassLoader: java.lang.Class findLoadedClass0(java.lang.String)>1031
-<java.lang.Thread: void interrupt0()>926
-<java.lang.Object: java.lang.Object clone()>664
-<java.lang.Thread: void start0()>719
-<java.lang.Class: java.lang.String getName0()>642
-<java.io.FileOutputStream: void write(int,boolean)>290
-<java.lang.Object: java.lang.Object clone()>266
-<java.lang.Object: int hashCode()>657
-<java.lang.Object: java.lang.Object clone()>443
-<java.lang.Object: java.lang.Object clone()>618
+Classes:          787
+Special:          752
+JNI:              62
+Virtual:          16091
+Static:           1397
+New Obj:          969
+Escaped:          475
+Escaped via JNI:  21
+% Escaped JNI objects: 4%
+Methods analyzed: 3440
+******************
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Soot started on Mon Oct 07 18:30:05 UTC 2024
+******************
+Classes:          816
+Special:          1425
+JNI:              12
 <java.lang.Class: java.lang.Object[] getEnclosingMethod0()>1072
-<java.lang.Object: java.lang.Object clone()>559
-<java.io.FileInputStream: int readBytes(byte[],int,int)>255
-<java.lang.Object: java.lang.Object clone()>273
-<java.io.FileOutputStream: void writeBytes(byte[],int,int,boolean)>326
-<java.util.zip.Inflater: int inflateBytes(long,byte[],int,int)>259
-<java.lang.Object: java.lang.Object clone()>752
-<java.lang.Object: int hashCode()>128
+<java.lang.Class: java.security.ProtectionDomain getProtectionDomain0()>2301
+<java.lang.Thread: void interrupt0()>926
+<java.lang.Class: java.lang.Class[] getInterfaces0()>852
 <java.lang.Class: java.lang.String getGenericSignature0()>2544
-<java.lang.Object: java.lang.Object clone()>137
-<java.lang.Object: int hashCode()>645
-<java.lang.Thread: void interrupt0()>931
-<java.lang.Object: int hashCode()>900
-<java.lang.Object: int hashCode()>625
-<java.lang.Object: java.lang.Object clone()>805
-<java.lang.Object: java.lang.Object clone()>99
-<java.lang.Object: int hashCode()>1094
-<java.lang.Object: java.lang.Object clone()>305
-<java.lang.Object: java.lang.Object clone()>547
-<java.lang.Object: java.lang.Object clone()>1184
-<java.io.FileInputStream: int available0()>306
+<java.lang.Class: java.lang.reflect.Constructor[] getDeclaredConstructors0(boolean)>2671
+<java.lang.Class: java.lang.String getName0()>642
 <java.lang.Class: java.lang.Class getDeclaringClass0()>1235
-<java.lang.Object: java.lang.Object clone()>1962
-<java.lang.Object: java.lang.Object clone()>1008
-<java.lang.ClassLoader: void resolveClass0(java.lang.Class)>957
-Virtual calls:          2787
-Static calls:           581
-Total objects allocated:593
-Escaped objects:        255
-Escaped via JNI calls:  15
-Escaped JNI objects out of all escaped objects: 5%
-Methods analyzed:       1873
+<java.util.jar.JarFile: java.lang.String[] getMetaInfEntryNames()>521
+<java.lang.Thread: void interrupt0()>931
+<java.lang.Class: java.lang.Class[] getInterfaces0()>848
+<java.lang.Class: java.lang.reflect.Method[] getDeclaredMethods0(boolean)>2701
+Virtual:          5539
+Static:           2142
+New Obj:          1371
+Escaped:          561
+Escaped via JNI:  2
+% Escaped JNI objects: 0%
+Methods analyzed: 3722
 ******************
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Soot started on Mon Oct 07 18:34:35 UTC 2024
+******************
+Classes:          816
+Special:          1425
+JNI:              12
+<java.lang.Class: java.lang.Object[] getEnclosingMethod0()>1072
+<java.lang.Class: java.security.ProtectionDomain getProtectionDomain0()>2301
+<java.lang.Thread: void interrupt0()>926
+<java.lang.Class: java.lang.Class[] getInterfaces0()>852
+<java.lang.Class: java.lang.String getGenericSignature0()>2544
+<java.lang.Class: java.lang.reflect.Constructor[] getDeclaredConstructors0(boolean)>2671
+<java.lang.Class: java.lang.String getName0()>642
+<java.lang.Class: java.lang.Class getDeclaringClass0()>1235
+<java.util.jar.JarFile: java.lang.String[] getMetaInfEntryNames()>521
+<java.lang.Thread: void interrupt0()>931
+<java.lang.Class: java.lang.Class[] getInterfaces0()>848
+<java.lang.Class: java.lang.reflect.Method[] getDeclaredMethods0(boolean)>2701
+Virtual:          5539
+Static:           2142
+New Obj:          1371
+Escaped:          561
+Escaped via JNI:  2
+% Escaped JNI objects: 0%
+Methods analyzed: 3722
+******************
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Soot started on Mon Oct 07 18:38:33 UTC 2024
+******************
+Classes:          816
+Special:          1425
+JNI:              12
+<java.lang.Class: java.lang.Object[] getEnclosingMethod0()>1072
+<java.lang.Class: java.security.ProtectionDomain getProtectionDomain0()>2301
+<java.lang.Thread: void interrupt0()>926
+<java.lang.Class: java.lang.Class[] getInterfaces0()>852
+<java.lang.Class: java.lang.String getGenericSignature0()>2544
+<java.lang.Class: java.lang.reflect.Constructor[] getDeclaredConstructors0(boolean)>2671
+<java.lang.Class: java.lang.String getName0()>642
+<java.lang.Class: java.lang.Class getDeclaringClass0()>1235
+<java.util.jar.JarFile: java.lang.String[] getMetaInfEntryNames()>521
+<java.lang.Thread: void interrupt0()>931
+<java.lang.Class: java.lang.Class[] getInterfaces0()>848
+<java.lang.Class: java.lang.reflect.Method[] getDeclaredMethods0(boolean)>2701
+Virtual:          5539
+Static:           2142
+New Obj:          1371
+Escaped:          561
+Escaped via JNI:  2
+% Escaped JNI objects: 0%
+Methods analyzed: 3722
+******************
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Soot started on Mon Oct 07 18:48:50 UTC 2024
+******************
+Classes:          816
+Special:          1425
+JNI:              12
+<java.lang.Class: java.lang.Object[] getEnclosingMethod0()>1072
+<java.lang.Class: java.security.ProtectionDomain getProtectionDomain0()>2301
+<java.lang.Thread: void interrupt0()>926
+<java.lang.Class: java.lang.Class[] getInterfaces0()>852
+<java.lang.Class: java.lang.String getGenericSignature0()>2544
+<java.lang.Class: java.lang.reflect.Constructor[] getDeclaredConstructors0(boolean)>2671
+<java.lang.Class: java.lang.String getName0()>642
+<java.lang.Class: java.lang.Class getDeclaringClass0()>1235
+<java.util.jar.JarFile: java.lang.String[] getMetaInfEntryNames()>521
+<java.lang.Thread: void interrupt0()>931
+<java.lang.Class: java.lang.Class[] getInterfaces0()>848
+<java.lang.Class: java.lang.reflect.Method[] getDeclaredMethods0(boolean)>2701
+Virtual:          5539
+Static:           2142
+New Obj:          1371
+Escaped:          561
+Escaped via JNI:  2
+% Escaped JNI objects: 0%
+Methods analyzed: 3722
+******************
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Soot started on Mon Oct 07 18:55:03 UTC 2024
+******************
+Classes:          816
+Special:          1425
+JNI:              12
+<java.lang.Class: java.lang.Object[] getEnclosingMethod0()>1072
+<java.lang.Class: java.security.ProtectionDomain getProtectionDomain0()>2301
+<java.lang.Thread: void interrupt0()>926
+<java.lang.Class: java.lang.Class[] getInterfaces0()>852
+<java.lang.Class: java.lang.String getGenericSignature0()>2544
+<java.lang.Class: java.lang.reflect.Constructor[] getDeclaredConstructors0(boolean)>2671
+<java.lang.Class: java.lang.String getName0()>642
+<java.lang.Class: java.lang.Class getDeclaringClass0()>1235
+<java.util.jar.JarFile: java.lang.String[] getMetaInfEntryNames()>521
+<java.lang.Thread: void interrupt0()>931
+<java.lang.Class: java.lang.Class[] getInterfaces0()>848
+<java.lang.Class: java.lang.reflect.Method[] getDeclaredMethods0(boolean)>2701
+Virtual:          5539
+Static:           2142
+New Obj:          1371
+Escaped:          561
+Escaped via JNI:  2
+% Escaped JNI objects: 0%
+Methods analyzed: 3722
+******************
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Soot started on Sun Oct 13 19:36:37 UTC 2024
+******************
+Classes:          1709
+Special:          4780
+JNI:              80
+Virtual:          68234
+Static:           6389
+New Obj:          2630
+Escaped via JNI:  8
+Methods analyzed: 10484
+-------------------
+Soot finished on Sun Oct 13 19:42:21 UTC 2024
+Soot has run for 5 min. 43 sec.
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Soot started on Tue Oct 15 13:10:13 UTC 2024
+******************
+Classes:          1857
+Interface:        3025
+Special:          6652
+JNI:              23
+Virtual:          27000
+Static:           3560
+New Obj:          2988
+NewArray Obj:     666
+Escaped:          830
+Escaped via JNI:  29
+% Escaped JNI objects: 3%
+Methods analyzed: 13072
+-------------------
+Soot finished on Tue Oct 15 13:16:13 UTC 2024
+Soot has run for 6 min. 0 sec.
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Soot started on Tue Oct 15 16:49:09 UTC 2024
+******************
+Classes:          1857
+Interface:        3025
+Special:          6652
+JNI:              23
+Virtual:          27000
+Static:           3560
+New Obj:          3654
+Escaped:          1101
+Escaped via JNI:  29
+% Escaped JNI objects: 2%
+Methods analyzed: 13072
+-------------------
+Soot finished on Tue Oct 15 16:55:15 UTC 2024
+Soot has run for 6 min. 6 sec.
