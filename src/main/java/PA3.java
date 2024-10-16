@@ -2,10 +2,10 @@ import soot.*;
 
 public class PA3{
     public static void main(String[] args) {
-        String dir ="/home/anadi/Programs/mtp/dacapo/helloWorld";
+        String dir ="./src/testCases/batik-small";
         String refl_log = "reflection-log:" + dir + "/refl.log";
         String mainClass= "Harness";
-        String outputDir= "/home/anadi/Programs/mtp/dacapo/sootOutput";
+        String outputDir= dir+"/sootOutput";
         //Set up arguments for java programs
         String[] sootArgs2 = {
                 "-w",
@@ -18,8 +18,8 @@ public class PA3{
                 "-process-dir", dir,      // directory of classes to analyze
                 "-p","cg.spark","on",
                  "-p", "cg", refl_log,
-                "-output-dir", outputDir,
                 "-output-format", "jimple",
+                "-output-dir", outputDir,
                 "-ire",
                 "-i", "jdt.*",
                 "-i", "jdk.*",
