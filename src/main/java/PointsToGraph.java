@@ -25,25 +25,25 @@ public class PointsToGraph {
     }
   }
 
+  //closure
   void markRecursively(String marked) {
     if (objectsToMark.contains(marked))
       return;
     objectsToMark.add(marked);
     if (heap.containsKey(marked)) {
-      for (String field : heap.get(marked).keySet()) {
-        heap.get(marked).get(field).forEach((String o) -> markRecursively(o));
-      }
-    } else if (stack.containsKey(marked)) {
-      stack.get(marked).forEach((String o) -> markRecursively(o));
-    } else {
-      assert (false);
+      for (String field : heap.get(marked).keySet())
+        heap.get(marked).get(field).forEach(o -> markRecursively(o));
     }
+    else if (stack.containsKey(marked))
+      stack.get(marked).forEach(o -> markRecursively(o));
+    else
+      assert (false);
   }
 
   public Set<String> computeClosure() {
     Set<String> objectsToMarkCopy = new HashSet<>(objectsToMark);
     objectsToMark.clear();
-    objectsToMarkCopy.forEach((String o) -> markRecursively(o));
+    objectsToMarkCopy.forEach(o -> markRecursively(o));
     return objectsToMarkCopy;
   }
 
@@ -95,6 +95,10 @@ public class PointsToGraph {
     }
 
     return true;
+  }
+
+  public boolean isEmpty(){
+    return stack.isEmpty() && heap.isEmpty();
   }
 
   public void add(PointsToGraph other) {
