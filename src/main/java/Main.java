@@ -1,8 +1,8 @@
 import soot.*;
 
-public class PA3{
+public class Main {
     public static void main(String[] args) {
-        String dir ="./src/testCases/batik-small";
+        String dir ="./src/testCases/h2-small";
         String refl_log = "reflection-log:" + dir + "/refl.log";
         String mainClass= "Harness";
         String outputDir= dir+"/sootOutput";
