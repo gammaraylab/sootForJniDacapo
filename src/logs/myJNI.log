@@ -1,0 +1,16 @@
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Soot started on Wed Sep 25 10:43:28 UTC 2024
+******************
+Classes loaded:         662
+Special calls:          479
+JNI calls:              57
+Virtual calls:          4780
+Static calls:           873
+Total objects allocated:734
+Escaped objects:        364
+Escaped via JNI calls:  31
+Escaped JNI objects out of all escaped objects: 8%
+Methods analyzed:       2902
+******************

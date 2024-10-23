@@ -1,0 +1,21 @@
+Soot finished on Mon Oct 14 04:17:32 UTC 2024
+Soot has run for 5 min. 46 sec.
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Soot started on Tue Oct 15 19:04:37 UTC 2024
+******************
+Classes:          1857
+Interface:        3043
+Special:          7004
+JNI:              23
+Virtual:          27473
+Static:           3573
+New Obj:          3654
+Escaped:          1106
+Escaped via JNI:  34
+% Escaped JNI objects: 3%
+Methods analyzed: 13072
+-------------------
+Soot finished on Tue Oct 15 19:10:44 UTC 2024
+Soot has run for 6 min. 7 sec.
