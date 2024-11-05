@@ -4,6 +4,10 @@ import java.util.Set;
 
 public class PointsToGraph {
 
+  PointsToGraph() {
+    heap = new HashMap<>();
+    stack = new HashMap<>();
+  }
   private final HashMap<String, HashMap<String, Set<String>>> heap; // Heap mapping
   HashMap<String, Set<String>> stack; // Stack mapping
 
@@ -14,7 +18,7 @@ public class PointsToGraph {
 
   Set<String> objectsToMark = new HashSet<>(); // Nodes to mark in the output
 
-  public void eliminateHeapObj(String toRem) {
+  void eliminateHeapObj(String toRem) {
     for (String stackVar : stack.keySet())  //remove from stack
       stack.get(stackVar).remove(toRem);
     heap.remove(toRem);//remove from heap
@@ -40,18 +44,18 @@ public class PointsToGraph {
       assert (false);
   }
 
-  public Set<String> computeClosure() {
+  Set<String> computeClosure() {
     Set<String> objectsToMarkCopy = new HashSet<>(objectsToMark);
     objectsToMark.clear();
     objectsToMarkCopy.forEach(o -> markRecursively(o));
     return objectsToMarkCopy;
   }
 
-  public static String wrapString(String s) {
+  static String wrapString(String s) {
     return "\"" + s + "\"";
   }
 
-  public PointsToGraph clone() {
+  PointsToGraph clonePtg() {
     PointsToGraph clone = new PointsToGraph();
     for (String heapObj : heap.keySet()) {
       clone.heap.put(heapObj, new HashMap<>());
@@ -65,15 +69,13 @@ public class PointsToGraph {
       clone.stack.get(stackVar).addAll(stack.get(stackVar));
     }
 
-    // clone.objectsToMark.addAll(objectsToMark);
-
     return clone;
   }
 
-  public boolean equals(PointsToGraph other) {
-    if (!stack.keySet().equals(other.stack.keySet()))
+  boolean equals(PointsToGraph other) {
+    if (stack.size()!=other.stack.size() || !stack.keySet().equals(other.stack.keySet()))
       return false;
-    if (!heap.keySet().equals(other.heap.keySet()))
+    if (heap.size()!=other.heap.size() || !heap.keySet().equals(other.heap.keySet()))
       return false;
 
     // Compare stack
@@ -97,11 +99,28 @@ public class PointsToGraph {
     return true;
   }
 
-  public boolean isEmpty(){
+  boolean isEmpty(){
     return stack.isEmpty() && heap.isEmpty();
   }
 
-  public void add(PointsToGraph other) {
+  private void println(Object o){
+    System.out.println(o);
+  }
+
+  void printPTG(){
+    println("Stack:");
+    for (String stackVar : stack.keySet())
+      println(stackVar+"->"+stack.get(stackVar));
+
+    println("Heap:");
+    for (String heapObj : heap.keySet()) {
+      HashMap<String, Set<String>> fieldMap = heap.get(heapObj);
+      for (String field : fieldMap.keySet())
+        println(heapObj+"."+field+"->"+fieldMap.get(field));
+    }
+  }
+
+  void add(PointsToGraph other) {
     try{
       for (String heapObj : other.heap.keySet()) {
         if (!heap.containsKey(heapObj))
@@ -125,13 +144,8 @@ public class PointsToGraph {
     }
   }
 
-  public PointsToGraph() {
-    heap = new HashMap<>();
-    stack = new HashMap<>();
-  }
-
   // Helpers *************************************************
-  public void ensureGlobalVar(String globalVar) {
+  void ensureGlobalVar(String globalVar) {
     if (!stack.containsKey(globalVar)) {
       ensureStackVar(globalVar);
       ensureHeapObj(GLOBAL_SYM);
@@ -139,26 +153,26 @@ public class PointsToGraph {
     }
   }
 
-  public void ensureStackVar(String localVar) {
+  void ensureStackVar(String localVar) {
     if (!stack.containsKey(localVar))
       stack.put(localVar, new HashSet<>());
   }
 
-  public void ensureHeapObj(String heapObj) {
+  void ensureHeapObj(String heapObj) {
     if (!heap.containsKey(heapObj))
       heap.put(heapObj, new HashMap<>());
   }
 
   final String STAR_FIELD = "\"*\"";
 
-  public void ensureField(String heapObj, String field) {
+  void ensureField(String heapObj, String field) {
     ensureHeapObj(heapObj);
     if (!heap.get(heapObj).containsKey(field))
       heap.get(heapObj).put(field, new HashSet<>());
   }
 
   // a -> OBJ
-  public void stackStrongUpdate(String stackVar, String heapObj) {
+  void stackStrongUpdate(String stackVar, String heapObj) {
     ensureStackVar(stackVar);
     ensureHeapObj(heapObj);
     stack.get(stackVar).clear();
@@ -169,24 +183,24 @@ public class PointsToGraph {
   // ********************************************************
 
   // a = new A[]
-  public void handleArrayNewStatement(String stackVar, String heapObj, String heapStore) {
+  void handleArrayNewStatement(String stackVar, String heapObj, String heapStore) {
     stackStrongUpdate(stackVar, heapObj);
     ensureField(heapObj, STAR_FIELD);
     heap.get(heapObj).get(STAR_FIELD).add(heapStore);
   }
 
   // a = new A(); Simple New
-  public void handleSimpleNewStatement(String stackVar, String heapObj) {
+  void handleSimpleNewStatement(String stackVar, String heapObj) {
     stackStrongUpdate(stackVar, heapObj);
   }
 
   // a = null
-  public void handleSimpleNULLStatement(String stackVar) {
+  void handleSimpleNULLStatement(String stackVar) {
     stackStrongUpdate(stackVar, NULL_SYM);
   }
 
   // a = b; Copy statement (strong)
-  public void handleCopyStatement(String stackVar1, String stackVar2) {
+  void handleCopyStatement(String stackVar1, String stackVar2) {
     ensureStackVar(stackVar1);
     ensureStackVar(stackVar2);
     stack.get(stackVar1).clear();
@@ -194,7 +208,7 @@ public class PointsToGraph {
   }
 
   // global = a
-  public void handleAssignmentToGlobal(String globalVar, String localVar) {
+  void handleAssignmentToGlobal(String globalVar, String localVar) {
     ensureGlobalVar(globalVar);
     ensureStackVar(localVar);
     stack.get(globalVar).clear();
@@ -202,7 +216,7 @@ public class PointsToGraph {
   }
 
   // a = global
-  public void handleAssignmentFromGlobal(String stackVar1, String stackVar2) {
+  void handleAssignmentFromGlobal(String stackVar1, String stackVar2) {
     ensureStackVar(stackVar1);
     ensureGlobalVar(stackVar2);
     stack.get(stackVar1).clear();
@@ -210,7 +224,7 @@ public class PointsToGraph {
   }
 
   // a.f = b; Store Statement
-  public void handleStoreStatement(String stackVar1, String field, String stackVar2) {
+  void handleStoreStatement(String stackVar1, String field, String stackVar2) {
     ensureStackVar(stackVar1);
     ensureStackVar(stackVar2);
     for (String heapObj : stack.get(stackVar1)) {
@@ -223,7 +237,7 @@ public class PointsToGraph {
   }
 
   // a = b.f; Load statement
-  public void handleLoadStatement(String stackVar1, String stackVar2, String field) {
+  void handleLoadStatement(String stackVar1, String stackVar2, String field) {
 
     ensureStackVar(stackVar1);
     ensureStackVar(stackVar2);
@@ -255,7 +269,7 @@ public class PointsToGraph {
   }
 
   // a.f = null; Null Store Statement
-  public void handleNULLStoreStatement(String stackVar1, String field) {
+  void handleNULLStoreStatement(String stackVar1, String field) {
     ensureStackVar(stackVar1);
     ensureHeapObj(NULL_SYM);
 
@@ -278,5 +292,4 @@ public class PointsToGraph {
     }
     return result;
   }
-
 }
