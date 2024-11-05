@@ -1,8 +1,5 @@
-
 import java.util.*;
 import soot.*;
-import soot.jimple.InvokeExpr;
-import soot.jimple.toolkits.callgraph.Edge;
 
 public class  AnalysisTransformer extends SceneTransformer {
     @Override
@@ -11,9 +8,11 @@ public class  AnalysisTransformer extends SceneTransformer {
         // Get the list of methods reachable from the main method
         // Note: This can be done bottom up manner as well. Might be easier to model.
         PTGWL.map.put(entryPoint, new PointsToAnalysis(entryPoint.getActiveBody()));
+
+        CallSite cs= PTGWL.addCallSite(entryPoint,null, new ArrayList<>(), "", new Position(-1, -1));
         // Process main method's PTG
         try {
-            PTGWL.map.get(entryPoint).doAnalysis();
+            PTGWL.map.get(entryPoint).doAnalysis(cs);
         } catch (Exception e) {
             e.printStackTrace();
         }
